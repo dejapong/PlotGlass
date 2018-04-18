@@ -4,7 +4,9 @@ PlotGlass is a plotting library for plotting realtime data at reasonable frame r
 
 ## Can I try it?
 
-[To see a live example, click here](./timeSeriesClientOnly.html).
+[To see a live example, click here](http://138.68.49.21:/timeSeriesClientOnly.html).
+
+[For full documentation, click here](http://138.68.49.21).
 
 To build `plotGlass.js`, just run `webpack` in the base directory. This will build JsDoc documentation as well, which should show up in the `./docs` directory.
 
