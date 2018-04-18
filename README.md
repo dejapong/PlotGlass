@@ -29,4 +29,4 @@ To give a coarse idea of the expected performance: in one browser window, PlotGl
 This project is still a proof-of-concept. The current version is demonstrates TimeSeries plots, with JSON websocket data only. The API is still in flux and future versions may break everything.
 
 ## Can I contribute?
-That would be amazing! I'll review pull requests, or contact me ([github.com/dejapong]), if you'd like a specific issue to work on.
+That would be amazing! I'll review pull requests, or [contact me](http://github.com/dejapong), if you'd like to talk about a specific issue to work on.
