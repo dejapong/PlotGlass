@@ -1,0 +1,112 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="../css/plotGlass.css">
+  </head>
+  <body>
+  <div id="plots"></div>
+  <script src="../dist/plotGlass.js"></script>
+  <script>
+
+    /*
+     * This example relies on timeSeriesServer.js running locally first
+     */
+    let pg = new PlotGlass();
+
+    pg.add(new Plot({
+
+      container : "#plots",
+
+      /** CSS styles which will be applied to the plot element */
+      style:{
+        width:"90%",
+        height:"90%"
+      },
+
+      body: {
+        majorDivs:[4, 4],
+        minorDivs:[4, 4],
+      },
+
+      /** Properties specific to the plot axis */
+      axes: {
+
+        x0: {
+          axis: "xTop",
+          range:[-5, 5],
+          title : "X0 Value",
+          flipDirection: false,
+          visible: true,
+          numMajorTicks: 5,
+          numMinorTicks: 6
+        },
+
+        x1: {
+          axis: "xBottom",
+          range:[0, 5],
+          title : "X1 Time (s)",
+          flipDirection: true,
+          visible: true
+        },
+
+        y1: {
+          axis: "yRight",
+          range:[0, 2],
+          title : "Y1 Temperature",
+          visible: true,
+          flipDirection : false,
+        },
+
+      },
+
+      /** Properties For the plot data */
+      sources: {
+
+        weather0 : {
+          type: "WebSocketJson",
+          url: "ws://localhost:8001",
+          ackFrame: "",
+        },
+
+        weather1 : {
+          type: "WebSocketJson",
+          url: "ws://localhost:8001",
+          ackFrame: "",
+        },
+
+      },
+
+      series : {
+        weather0 : {
+          type: "time",
+          title: "Weather Station 0",
+          axes: ["x1", "y1"],
+          source: {
+            name: "weather0",
+            time: "$(time)",
+            value: "accelX",
+          },
+          vertical: false,
+          color: [1.00, 0.00, 0.75, 1.00],
+        },
+
+        weather1 : {
+          type: "time",
+          title: "Weather Station 1",
+          axes: ["x0", "y1"],
+          source: {
+            name: "weather1",
+            time: "$(time)",
+            value: "accelX",
+          },
+          vertical: true,
+          color: [0.00, 1.00, 0.75, 1.00],
+        }
+      }
+    }));
+
+    pg.start();
+
+  </script>
+
+  </body>
+</html>

@@ -1,0 +1,26 @@
+{
+    "title":"PlotGlass: a realtime, high performance plotting library using WebGl",
+    "opts": {
+      "encoding": "utf8",
+      "destination": "./docs/",
+      "recurse": true,
+      "readme" : "./README.md"
+    },
+    "plugins":[
+        "plugins/markdown"
+    ],
+    "source":{
+        "include": "app",
+        "includePattern": ".+\\.js(x|doc)?$"
+    },
+    "recurseDepth": 10,
+    "sourceType": "module",
+    "tags": {
+        "allowUnknownTags": true,
+        "dictionaries": ["jsdoc","closure"]
+    },
+    "templates": {
+        "cleverLinks": false,
+        "monospaceLinks": false
+    }
+}

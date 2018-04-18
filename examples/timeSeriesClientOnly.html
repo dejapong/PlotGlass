@@ -1,0 +1,130 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="../css/plotGlass.css">
+  </head>
+  <body>
+  <div id="plots"></div>
+  <script src="../dist/plotGlass.js"></script>
+  <script>
+
+    /*
+     * This example does a dirty, dirty hack to avoid needing to run a WebSocket server. For a better
+     * example of how to use plotGlass, run timeSeries.html locally with the websocket server.
+     */
+    window.WebSocket = function(url){
+      let data = { accelX: 0.0 };
+      let x = 0;
+      this.send = function(){};
+
+      setInterval(function(){
+        x +=.001;
+        data.accelX = (1 + Math.random() - 0.5) + Math.sin((x) * 30);
+        this.onmessage({data:JSON.stringify(data)});
+      }.bind(this),10)
+    };
+    /* End of dirty hack */
+
+    /* Beginning of PlotGlass example */
+    let pg = new PlotGlass();
+    pg.start();
+
+    function addPlot() {
+      pg.add(new Plot({
+
+        container : "#plots",
+
+        /** CSS styles which will be applied to the plot element */
+        style:{
+          width:"90%",
+          height:"20%"
+        },
+
+        body: {
+          majorDivs:[4, 4],
+          minorDivs:[4, 4],
+        },
+
+        /** Properties specific to the plot axis */
+        axes: {
+
+          x0: {
+            axis: "xTop",
+            range:[-5, 5],
+            title : "X0 Value",
+            flipDirection: false,
+            visible: true,
+            numMajorTicks: 5,
+            numMinorTicks: 6
+          },
+
+          x1: {
+            axis: "xBottom",
+            range:[0, 5],
+            title : "X1 Time (s)",
+            flipDirection: true,
+            visible: true
+          },
+
+          y1: {
+            axis: "yRight",
+            range:[0, 2],
+            title : "Y1 Temp",
+            visible: true,
+            flipDirection : false,
+          },
+
+        },
+
+        /** Properties For the plot data */
+        sources: {
+
+          weather0 : {
+            type: "WebSocketJson",
+            url: "ws://localhost:8001",
+            ackFrame: "",
+          },
+
+          weather1 : {
+            type: "WebSocketJson",
+            url: "ws://localhost:8001",
+            ackFrame: "",
+          },
+
+        },
+
+        series : {
+          weather0 : {
+            type: "time",
+            title: "Weather Station 0",
+            axes: ["x1", "y1"],
+            source: {
+              name: "weather0",
+              time: "$(time)",
+              value: "accelX",
+            },
+            vertical: false,
+            color: [1.00, 0.00, 0.75, 1.00],
+          },
+
+          weather1 : {
+            type: "time",
+            title: "Weather Station 1",
+            axes: ["x0", "y1"],
+            source: {
+              name: "weather1",
+              time: "$(time)",
+              value: "accelX",
+            },
+            vertical: true,
+            color: [0.00, 1.00, 0.75, 1.00],
+          }
+        }
+      }));
+    }
+
+    addPlot();
+  </script>
+  <input type=button onclick="addPlot()" value="Add Plot" style="font-size:2em;font-weight:bold"></input>
+
+  </body>
+</html>

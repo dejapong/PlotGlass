@@ -1,0 +1,32 @@
+body {
+  padding:10px;
+}
+.pgAxis {
+  /*background: #aaa;*/
+}
+.pgPlot {
+  margin:20px;
+  border:solid 2px #000;
+  overflow: hidden;
+}
+.pgAxisContainer {
+}
+.pgPlotTitle {
+  font-weight: bold;
+}
+.pgAxisTitle {
+  font-style: italic;
+}
+.pgPlotBody {
+}
+.pgAxisTitle {
+  /*background: #faa;*/
+}
+.pgAxisLabels {
+  /*background: #afa;*/
+  font-size:0.8em;
+  font-family: monospace;
+}
+.pgAxisScale {
+  /*background: #aaf;*/
+}
