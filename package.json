@@ -8,16 +8,16 @@
     "jsdoc-webpack-plugin-v2": "^2.0.2",
     "jsdom": "11.7.0",
     "jsdom-global": "3.0.2",
-    "mocha": "^4.0.1",
-    "mocha-webpack": "^1.0.1",
+    "mocha": "^4.1.0",
+    "mocha-webpack": "^1.1.0",
     "mock-socket": "^7.1.0",
     "nodejs-websocket": "^1.7.1",
     "sinon": "^4.5.0",
-    "webpack": "^3.10.0",
-    "webpack-node-externals": "^1.6.0",
+    "webpack": "^3.12.0",
+    "webpack-node-externals": "^1.7.2",
     "ws": "3.3.2"
   },
   "dependencies": {
-    "gl-matrix": "^2.4.0"
+    "gl-matrix": "^2.7.1"
   }
 }
