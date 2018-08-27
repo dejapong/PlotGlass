@@ -1,3 +1,4 @@
+import Optionable from "Optionable";
 export default Drawable;
 
 /**
@@ -5,6 +6,9 @@ export default Drawable;
  * @description Object which can be drawn or scrolled or resized and may contain child drawables.
  */
 function Drawable() {
+
+  Optionable.call(this);
+
   this._children = [];
   this._visible = true;
 
@@ -25,7 +29,7 @@ function Drawable() {
   this._rebuildLists();
 }
 
-Drawable.prototype = {
+Drawable.prototype = Object.assign( Object.create(Optionable.prototype), {
 
   /**
    * Rebuild lists for this drawable and notify any parent drawable to do so as well. This ensures each drawable
@@ -94,4 +98,4 @@ Drawable.prototype = {
     return children;
   },
 
-};
+});

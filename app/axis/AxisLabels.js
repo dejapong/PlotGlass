@@ -44,6 +44,23 @@ function AxisLabels (userOptions) {
   deserialize won't give the same result as creating an AxisLabels instance, due to parent deserializations
   not getting called */
   Element.call(this, options);
+
+  this.handleOption("location", function(value) {
+    this.updateLabels();
+  }.bind(this));
+
+  this.handleOption("range", function(value) {
+    this.updateLabels();
+  }.bind(this));
+
+  this.handleOption("flipDirection", function(value){
+    this.updateLabels();
+  }.bind(this));
+
+  this.handleOption("numLabels", function(value){
+    this.updateLabels();
+  }.bind(this));
+
   this.deserialize(options);
 }
 
@@ -57,48 +74,48 @@ AxisLabels.prototype = Object.assign( Object.create(Element.prototype), {
    *
    * @param {AxisLabels.Options} options User provided options for the axis
    */
-  deserialize(options) {
+  updateLabels() {
 
     let _ = this;
 
     /* Labels are added left to right, and top to bottom. */
-    testAxisLocation(options.axis);
-    switch(options.axis) {
+    testAxisLocation(this.location);
+    switch(this.location) {
       case AxisLocation.X_AXIS_BOTTOM: /* fallthrough */
       case AxisLocation.X_AXIS_TOP:
-        Object.assign(options.style, {
+        Object.assign(this.style, {
           flexDirection : "row",
           margin:"0px -1em 0px -1em"
         });
         /* X-axis, standard label direction is increasing to the right */
-        this._largestFirst = options.flipDirection || false;
+        this._largestFirst = this.flipDirection || false;
         break;
       case AxisLocation.Y_AXIS_LEFT: /* fallthrough */
       case AxisLocation.Y_AXIS_RIGHT:
-        Object.assign(options.style, {
+        Object.assign(this.style, {
           flexDirection : "column",
           margin:"-0.5em 0px -0.5em 0px"
         });
         /* Y-axis, standard label direction is decreasing down */
-        this._largestFirst = !(options.flipDirection || false);
+        this._largestFirst = !(this.flipDirection || false);
         break;
     };
-    Object.assign(this.element.style, options.style);
+    Object.assign(this.element.style, this.style);
 
     this.element.innerHTML = "";
-    console.assert(options.range.length == 2, "Range must be a [min, max] pair array.");
-    let min = options.range[0];
-    let max = options.range[1];
+    console.assert(this.range.length == 2, "Range must be a [min, max] pair array.");
+    let min = this.range[0];
+    let max = this.range[1];
     let bounds = this.element.getBoundingClientRect();
-    let axisSep = bounds.width/(options.numLabels-1);
+    let axisSep = bounds.width/(this.numLabels-1);
     Object.assign(this.element.style, {"justify-content": "space-between"});
 
-    for (let i =0; i < options.numLabels; i++) {
+    for (let i =0; i < this.numLabels; i++) {
       let label = appendNewDiv(this.element, { style: {}});
       let magnitude = max - min;
       let text = this._largestFirst
-        ? (max - magnitude * i/(options.numLabels-1)).toFixed(2)
-        : (min + magnitude * i/(options.numLabels-1)).toFixed(2);
+        ? (max - magnitude * i/(this.numLabels-1)).toFixed(2)
+        : (min + magnitude * i/(this.numLabels-1)).toFixed(2);
       label.innerHTML = text;
     }
 

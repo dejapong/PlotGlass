@@ -35,7 +35,7 @@ function AxisScale(userOptions) {
     * @property {Number} numMinorTicks    Number of minor ticks (ticks between major ticks)
     **/
   let options = mergeOptions({
-    axis: AxisLocation.X_AXIS_BOTTOM,
+    location: AxisLocation.X_AXIS_BOTTOM,
     range:[-1, 1],
     flipDirection: false,
     numMajorTicks: 5,
@@ -70,29 +70,29 @@ function AxisScale(userOptions) {
 
   let grid;
 
-  testAxisLocation(options.axis);
-  if (options.axis == AxisLocation.X_AXIS_BOTTOM) {
+  testAxisLocation(options.location);
+  if (options.location == AxisLocation.X_AXIS_BOTTOM) {
     grid = new MajorMinorRule(Object.assign({
       majorDivs:[options.numMajorTicks - 1, 0],
       minorDivs:[options.numMinorTicks + 1, 0],
       origin: [0, 1],
       size: [1, -1],
     }, xGridOpts));
-  } else if (options.axis == AxisLocation.Y_AXIS_LEFT) {
+  } else if (options.location == AxisLocation.Y_AXIS_LEFT) {
     grid = new MajorMinorRule(Object.assign({
       majorDivs:[0, options.numMajorTicks - 1],
       minorDivs:[0, options.numMinorTicks + 1],
       origin: [1, 0],
       size: [-1, 1],
     }, yGridOpts));
-  } else if (options.axis == AxisLocation.X_AXIS_TOP) {
+  } else if (options.location == AxisLocation.X_AXIS_TOP) {
     grid = new MajorMinorRule(Object.assign({
       majorDivs:[options.numMajorTicks - 1, 0],
       minorDivs:[options.numMinorTicks + 1, 0],
       origin: [0, 0],
       size: [1, 1],
     }, xGridOpts));
-  } else if (options.axis == AxisLocation.Y_AXIS_RIGHT) {
+  } else if (options.location == AxisLocation.Y_AXIS_RIGHT) {
     grid = new MajorMinorRule(Object.assign({
       majorDivs:[0, options.numMajorTicks - 1],
       minorDivs:[0, options.numMinorTicks + 1],

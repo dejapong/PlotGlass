@@ -71,7 +71,7 @@ function PlotView(userOptions) {
 
 }
 
-PlotView.prototype =  Object.assign({}, Element.prototype, {
+PlotView.prototype =  Object.assign(Object.create(Element.prototype), {
 
   resize : function() {
     let bounds = this.element.getBoundingClientRect()

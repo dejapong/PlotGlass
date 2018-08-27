@@ -2,11 +2,13 @@
 
 PlotGlass is a plotting library for plotting realtime data at reasonable frame rates, with many plots on one page.
 
+[To see a live example, click here](http://plotglass.com/timeSeriesClientOnly.html).
+
+[For full documentation, click here](http://plotglass.com).
+
+[For the github project, click here](https://github.com/dejapong/PlotGlass).
+
 ## Can I try it?
-
-[To see a live example, click here](http://138.68.49.21:/timeSeriesClientOnly.html).
-
-[For full documentation, click here](http://138.68.49.21).
 
 To build `plotGlass.js`, just run `webpack` in the base directory. This will build JsDoc documentation as well, which should show up in the `./docs` directory.
 

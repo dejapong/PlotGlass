@@ -49,7 +49,7 @@ function Element(userOptions) {
   }
 }
 
-Element.prototype = Object.assign({}, Drawable.prototype, {
+Element.prototype = Object.assign( Object.create(Drawable.prototype), {
 
   onShow: function(){
     this.element.style.display = this._cachedDisplay;

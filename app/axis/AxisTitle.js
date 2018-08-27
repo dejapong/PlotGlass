@@ -25,7 +25,7 @@ function AxisTitle(userOptions) {
     **/
   let options = mergeOptions({
     class: "pgAxisTitle",
-    axis: AxisLocation.X_AXIS_BOTTOM,
+    location: AxisLocation.X_AXIS_BOTTOM,
     title:"Title",
     style: {
       width: "100%",
@@ -38,8 +38,8 @@ function AxisTitle(userOptions) {
 
   let titleStyle = {};
 
-  testAxisLocation(options.axis);
-  switch(options.axis) {
+  testAxisLocation(options.location);
+  switch(options.location) {
     case AxisLocation.X_AXIS_BOTTOM: /* fallthrough */
     case AxisLocation.X_AXIS_TOP:
       options.style.flexDirection = "column";
@@ -59,7 +59,7 @@ function AxisTitle(userOptions) {
       };
       break;
     default:
-      throw Error(`Unrecognized axis location ${options.axis}. Choose from ${Object.values(AxisLocation).join(", ")}`);
+      throw Error(`Unrecognized axis location ${options.location}. Choose from ${Object.values(AxisLocation).join(", ")}`);
   }
 
   Element.call(this, options);
@@ -69,23 +69,16 @@ function AxisTitle(userOptions) {
     style: titleStyle
   });
 
-  /**
-   * @instance
-   * @member title Axis title text
-   * @memberof AxisTitle
-   * @type String
-   **/
-  Object.defineProperty(this, "title", {
-    set: function(value){
+  this.handleOption("title",
+    function(value) {
       this._axisTitleLabel.innerHTML = value;
     }.bind(this),
-    get: function() {
+    function() {
       return this._axisTitleLabel.innerHTML;
     }.bind(this)
-  });
+  );
 
-  this.title = options.title;
-  this._axis = options.axis;
+  this._axis = options.location;
 }
 
 AxisTitle.prototype = Object.assign( Object.create(Element.prototype), {
