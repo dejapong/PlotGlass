@@ -1,13 +1,17 @@
 body {
   padding:10px;
+  background: #000;
 }
 .pgAxis {
   /*background: #aaa;*/
 }
 .pgPlot {
-  margin:20px;
-  border:solid 2px #000;
+  font-family: futura;
+  font-size: 0.8em;
+  margin:3px 20px;
+  background: #fff;
   overflow: hidden;
+  padding:3px;
 }
 .pgAxisContainer {
 }
