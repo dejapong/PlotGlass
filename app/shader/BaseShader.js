@@ -1,12 +1,11 @@
-import {mat4} from "gl-matrix";
+import { mat4 } from "gl-matrix";
 
 export default function BaseShader() {
-  this._color = [0.0,0.0,0.0,1.0];
+  this._color = [0.0, 0.0, 0.0, 1.0];
 }
 
 BaseShader.prototype = {
-
-  _createShader : function (gl, type, str) {
+  _createShader: function(gl, type, str) {
     let shader = gl.createShader(type);
 
     gl.shaderSource(shader, str);
@@ -19,7 +18,7 @@ BaseShader.prototype = {
     return shader;
   },
 
-  getVertexShader : function () {
+  getVertexShader: function() {
     return `
       attribute vec3 aVertexPosition;
 
@@ -32,8 +31,8 @@ BaseShader.prototype = {
     `;
   },
 
-  getFragmentShader : function () {
-   return `
+  getFragmentShader: function() {
+    return `
       precision mediump float;
       uniform vec4 uFragColor;
 
@@ -43,10 +42,17 @@ BaseShader.prototype = {
     `;
   },
 
-  initGl : function (gl) {
-
-    let fShader = this._createShader(gl, gl.FRAGMENT_SHADER, this.getFragmentShader());
-    let vShader = this._createShader(gl, gl.VERTEX_SHADER, this.getVertexShader());
+  initGl: function(gl) {
+    let fShader = this._createShader(
+      gl,
+      gl.FRAGMENT_SHADER,
+      this.getFragmentShader()
+    );
+    let vShader = this._createShader(
+      gl,
+      gl.VERTEX_SHADER,
+      this.getVertexShader()
+    );
 
     this.program = gl.createProgram();
     gl.attachShader(this.program, vShader);
@@ -57,22 +63,24 @@ BaseShader.prototype = {
       console.error(gl.getShaderInfoLog(this.program));
     }
 
-    this.vertexPositionAttribute = gl.getAttribLocation(this.program, "aVertexPosition");
+    this.vertexPositionAttribute = gl.getAttribLocation(
+      this.program,
+      "aVertexPosition"
+    );
     this.uPMatrix = gl.getUniformLocation(this.program, "uPMatrix");
     this.uMVMatrix = gl.getUniformLocation(this.program, "uMVMatrix");
     this.uFragColor = gl.getUniformLocation(this.program, "uFragColor");
-
   },
 
-  color : function (gl, vec4) {
+  color: function(gl, vec4) {
     this._color = vec4;
     gl.uniform4fv(this.uFragColor, vec4);
   },
 
-  use : function (gl, mvMatrix, pMatrix) {
+  use: function(gl, mvMatrix, pMatrix) {
     gl.useProgram(this.program);
     gl.uniformMatrix4fv(this.uPMatrix, false, pMatrix);
     gl.uniformMatrix4fv(this.uMVMatrix, false, mvMatrix);
     this.color(gl, this._color);
-  },
-}
+  }
+};

@@ -2,20 +2,15 @@
  * @module AxisDefs
  * @description This module contains global axis members
  */
-export {
-  AxisDefs,
-  AxisLocation
-};
+export { AxisDefs, AxisLocation };
 
 /**
  * @enum
  */
 var AxisDefs = {
-
   X_AXIS_INDEX: 0,
-  Y_AXIS_INDEX: 1,
-
-}
+  Y_AXIS_INDEX: 1
+};
 
 /**
  * @enum {String}
@@ -26,23 +21,23 @@ var AxisLocation = {
    * @member {String}
    * @description X axis above the plot body
    **/
-  X_AXIS_TOP : "xTop",
+  X_AXIS_TOP: "xTop",
   /**
    * @member {String}
    * @description Y axis to the left of the plot body
    **/
-  Y_AXIS_LEFT : "yLeft",
+  Y_AXIS_LEFT: "yLeft",
   /**
    * @member {String}
    * @description X axis below the plot body
    **/
-  X_AXIS_BOTTOM : "xBottom",
+  X_AXIS_BOTTOM: "xBottom",
   /**
    * @member {String}
    * @description Y axis to the right of the plot body
    **/
-  Y_AXIS_RIGHT : "yRight",
-}
+  Y_AXIS_RIGHT: "yRight"
+};
 
 /**
  * Test the validity of any axis location string
@@ -53,6 +48,8 @@ var AxisLocation = {
 export function testAxisLocation(location) {
   const values = Object.values(AxisLocation);
   if (values.indexOf(location) === -1) {
-    throw Error(`Unrecognized axis location ${location}. Choose from ${values.join(", ")}`);
+    throw Error(
+      `Unrecognized axis location ${location}. Choose from ${values.join(", ")}`
+    );
   }
 }

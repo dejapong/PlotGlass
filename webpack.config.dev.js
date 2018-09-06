@@ -1,9 +1,9 @@
-let nodeExternals = require('webpack-node-externals');
-var path = require('path');
+let nodeExternals = require("webpack-node-externals");
+var path = require("path");
 
 module.exports = {
-  target: 'node',
-  externals: [ nodeExternals() ],
+  target: "node",
+  externals: [nodeExternals()],
   context: __dirname + "/app",
   entry: "./index.js",
   output: {
@@ -12,6 +12,6 @@ module.exports = {
   },
   resolve: {
     modules: ["app"],
-    extensions: [ ".js"]
+    extensions: [".js"]
   }
-}
+};

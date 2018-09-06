@@ -1,16 +1,15 @@
-import Plot from "plot/Plot"
-import Axis from "axis/Axis"
-import Series from "series/Series"
+import Plot from "plot/Plot";
+import Axis from "axis/Axis";
+import Series from "series/Series";
 
-import WebSocketJson from "source/WebSocketJson"
-import assert from "assert"
-import {testTitle1,testTitle2} from "axis/AxisData.test";
+import WebSocketJson from "source/WebSocketJson";
+import assert from "assert";
+import { testTitle1, testTitle2 } from "axis/AxisData.test";
 
 describe("Plot", function() {
-
-  it (`Creates and updates title`, function(){
+  it(`Creates and updates title`, function() {
     let plot = new Plot({
-      title : testTitle1
+      title: testTitle1
     });
     let titleElements = plot.element.getElementsByClassName("pgPlotTitle");
     assert.equal(titleElements.length, 1);
@@ -18,22 +17,24 @@ describe("Plot", function() {
     assert.equal(titleElement.textContent, testTitle1);
 
     plot.title = testTitle2;
-    assert.equal(plot.element.getElementsByClassName("pgPlotTitle")[0].textContent, testTitle2);
+    assert.equal(
+      plot.element.getElementsByClassName("pgPlotTitle")[0].textContent,
+      testTitle2
+    );
   });
 
   it(`Creates and updates axes`, function() {
-
     let plot = new Plot({
-      axes : {
+      axes: {
         x1: {
           axis: "xBottom",
-          range:[0, 5],
-          title : "X1 Time (s)",
+          range: [0, 5],
+          title: "X1 Time (s)"
         },
         y1: {
           axis: "yLeft",
-          range:[0, 5],
-          title : "Y1 Time (s)",
+          range: [0, 5],
+          title: "Y1 Time (s)"
         }
       }
     });
@@ -44,31 +45,30 @@ describe("Plot", function() {
     plot.axes = {
       x2: {
         axis: "xBottom",
-        range:[0, 5],
-        title : "X1 Time (s)",
+        range: [0, 5],
+        title: "X1 Time (s)"
       },
       y2: {
         axis: "yLeft",
-        range:[0, 5],
-        title : "Y1 Time (s)",
+        range: [0, 5],
+        title: "Y1 Time (s)"
       }
-    }
+    };
 
     assert(plot.axes.x2 instanceof Axis);
     assert(plot.axes.y2 instanceof Axis);
   });
 
   it(`Creates and updates sources`, function() {
-
     let plot = new Plot({
-      sources : {
+      sources: {
         source1: {
           type: "WebSocketJson",
-          url: "dummy",
+          url: "dummy"
         },
         source2: {
           type: "WebSocketJson",
-          url: "dummy",
+          url: "dummy"
         }
       }
     });
@@ -79,47 +79,45 @@ describe("Plot", function() {
     plot.sources = {
       source3: {
         type: "WebSocketJson",
-        url: "dummy",
+        url: "dummy"
       },
       source4: {
         type: "WebSocketJson",
-        url: "dummy",
+        url: "dummy"
       }
     };
 
     assert(plot.sources.source3 instanceof WebSocketJson, "Testing source3");
     assert(plot.sources.source4 instanceof WebSocketJson, "Testing source4");
-
   });
 
   it(`Creates series`, function() {
-
     let plot = new Plot({
-      axes : {
+      axes: {
         x1: {
           axis: "xBottom",
-          range:[0, 5],
-          title : "X1 Time (s)",
+          range: [0, 5],
+          title: "X1 Time (s)"
         },
         y1: {
           axis: "yLeft",
-          range:[0, 5],
-          title : "Y1 Time (s)",
+          range: [0, 5],
+          title: "Y1 Time (s)"
         }
       },
-      series : {
-        series0 : {
+      series: {
+        series0: {
           type: "time",
           title: "Test Series 1",
           axes: ["x1", "y1"],
           source: {
             name: "source1",
             time: "$(time)",
-            value: "accelX",
+            value: "accelX"
           },
           vertical: false,
-          color: [1.00, 0.00, 0.75, 1.00],
-        },
+          color: [1.0, 0.0, 0.75, 1.0]
+        }
       }
     });
 
@@ -133,14 +131,13 @@ describe("Plot", function() {
         source: {
           name: "source1",
           time: "$(time)",
-          value: "accelX",
+          value: "accelX"
         },
         vertical: false,
-        color: [1.00, 0.00, 0.75, 1.00],
-      },
-    }
+        color: [1.0, 0.0, 0.75, 1.0]
+      }
+    };
 
     assert(plot.series.series1 instanceof Series);
-
   });
 });

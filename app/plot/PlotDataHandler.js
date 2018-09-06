@@ -20,15 +20,13 @@ function PlotDataHandler(sourcesOptions, seriesOptions, plotBody) {
 }
 
 PlotDataHandler.prototype = {
-
   /**
-    * Stores last frame from each data source, and updates each series.
-    * @param name   Data source name
-    * @param frame  Last frame received from the data source
-    */
+   * Stores last frame from each data source, and updates each series.
+   * @param name   Data source name
+   * @param frame  Last frame received from the data source
+   */
   _collateData: function(name, frame) {
-
-    this._dataValues["$(time)"] = (new Date().getTime()) / 1000;
+    this._dataValues["$(time)"] = new Date().getTime() / 1000;
 
     this._dataValues[name] = frame;
     let series = this._seriesBySourceName[name];
@@ -56,7 +54,7 @@ PlotDataHandler.prototype = {
   /**
    * @return Object of {@link Source} instances indexed by source name
    */
-  getSources: function(){
+  getSources: function() {
     return this._sourceInstances;
   },
 
@@ -70,15 +68,12 @@ PlotDataHandler.prototype = {
     this._sourcesOptions = sources;
 
     for (let sourceName in sources) {
-
       let sourceOptions = sources[sourceName];
 
-      if (sourceOptions.type === "WebSocketJson" ) {
-
+      if (sourceOptions.type === "WebSocketJson") {
         let ws = new WebSocketJson(sourceOptions);
         this._sourceInstances[sourceName] = ws;
         ws.addHandler(this._collateData.bind(this, sourceName));
-
       } else {
         console.error(`Data type is unsupported: ${seriesOpts.type}`);
       }
@@ -99,7 +94,6 @@ PlotDataHandler.prototype = {
    * @param  {Object} series Object of {@link Series.Options}, indexed by series name
    */
   setSeries: function(seriesOptions) {
-
     for (let seriesName in this._seriesOptions) {
       this._plotBody.remove(this._seriesInstances[seriesName]);
       delete this._seriesInstances[seriesName];
@@ -108,7 +102,6 @@ PlotDataHandler.prototype = {
     this._seriesOptions = seriesOptions;
 
     for (let seriesName in this._seriesOptions) {
-
       let seriesOpts = this._seriesOptions[seriesName];
       let ts;
 
@@ -128,6 +121,5 @@ PlotDataHandler.prototype = {
       this._seriesBySourceName[sourceName].push(ts);
       this._plotBody.add(ts);
     }
-  },
-
-}
+  }
+};

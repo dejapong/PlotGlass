@@ -1,7 +1,7 @@
 import Geometry from "Geometry";
 import BaseShader from "shader/BaseShader";
-import {mergeOptions} from "Util";
-import cfg from "Config"
+import { mergeOptions } from "Util";
+import cfg from "Config";
 
 export default Series;
 
@@ -10,18 +10,19 @@ export default Series;
  * @description Base class for Data series
  */
 function Series(userOptions) {
-
   /**
-    * @typedef Series.Options
-    * @description Extends {@link Geometry.Options}
-    */
-  let options = mergeOptions({
-
-    /* Overriden options */
-    origin : [0,-1],
-    size : [2,2],
-    coordBufferLength : 100000*30,
-  }, userOptions);
+   * @typedef Series.Options
+   * @description Extends {@link Geometry.Options}
+   */
+  let options = mergeOptions(
+    {
+      /* Overriden options */
+      origin: [0, -1],
+      size: [2, 2],
+      coordBufferLength: 100000 * 30
+    },
+    userOptions
+  );
 
   Geometry.call(this, options);
 
@@ -31,8 +32,7 @@ function Series(userOptions) {
   this._color = options.color;
 }
 
-Series.prototype = Object.assign( Object.create(Geometry.prototype), {
-
+Series.prototype = Object.assign(Object.create(Geometry.prototype), {
   /**
    * @memberof Series
    * @instance
@@ -40,7 +40,7 @@ Series.prototype = Object.assign( Object.create(Geometry.prototype), {
    * Update the series data
    * @param {Object} frame data value object
    **/
-  updateData: function(frame){
+  updateData: function(frame) {
     /* pass */
   },
 
@@ -52,14 +52,13 @@ Series.prototype = Object.assign( Object.create(Geometry.prototype), {
    * @param {Axis.Options[]} axes   Two element array of {@link Axis.Options} for this series:
    *                                [dependent axis, independent axis].
    */
-  setAxes : function(axes) {
-
+  setAxes: function(axes) {
     let ranges = [
-      [axes[0].range[0], axes[0].range[1] ],
-      [axes[1].range[0], axes[1].range[1] ],
+      [axes[0].range[0], axes[0].range[1]],
+      [axes[1].range[0], axes[1].range[1]]
     ];
 
-    for (let i =0; i < ranges.length; i++) {
+    for (let i = 0; i < ranges.length; i++) {
       if (axes[i].flipDirection) {
         ranges[i].reverse();
       }
@@ -69,6 +68,5 @@ Series.prototype = Object.assign( Object.create(Geometry.prototype), {
     this._origin[1] = ranges[1][0];
     this._size[0] = ranges[0][0] - ranges[0][1];
     this._size[1] = ranges[1][1] - ranges[1][0];
-  },
-
+  }
 });

@@ -7,7 +7,7 @@ import * as myself from "Config";
 export default myself;
 
 /** Default thickness of a plot axis. This sets the width for Y-axis and height for X-axis */
-export const DEFAULT_AXIS_THICKNESS=45;
+export const DEFAULT_AXIS_THICKNESS = 45;
 
 /**
  * Number of coordinates per vertex for use when created packed arrays of vertex coordinates.
@@ -28,14 +28,14 @@ export const MINOR_GRID_LINE_WIDTH = 1;
 /**
  * WebGl clear color: (r,g,b,a)
  */
-export const CLEAR_COLOR = [0.00, 0.00, 0.00, 0.00];
+export const CLEAR_COLOR = [0.0, 0.0, 0.0, 0.0];
 
 /**
  * Color of major grid lines: (r,g,b,a)
  */
-export const MAJOR_GRID_COLOR = [0.00, 0.00, 0.00, 0.50];
+export const MAJOR_GRID_COLOR = [0.0, 0.0, 0.0, 0.5];
 
 /**
  * Color of minor grid lines: (r,g,b,a)
  */
-export const MINOR_GRID_COLOR = [0.00, 0.00, 0.00, 0.25];
+export const MINOR_GRID_COLOR = [0.0, 0.0, 0.0, 0.25];

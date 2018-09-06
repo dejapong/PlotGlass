@@ -1,4 +1,4 @@
-import {newDiv, getHtmlElement, mergeOptions} from "Util";
+import { newDiv, getHtmlElement, mergeOptions } from "Util";
 import Drawable from "Drawable";
 
 export default Element;
@@ -10,7 +10,6 @@ export default Element;
  * @param {Element.Options} userOptions  User provided options
  */
 function Element(userOptions) {
-
   /**
    * @typedef Element.Options
    * @description Options for Element
@@ -20,24 +19,24 @@ function Element(userOptions) {
    * @property {(String|HTMLElement)} container Parent element which will contain the element
    */
   const defaultOptions = {
-    element:null,
-    style:{},
-    class:"",
-    container:null,
-  }
+    element: null,
+    style: {},
+    class: "",
+    container: null
+  };
 
   let options = mergeOptions(defaultOptions, userOptions);
 
   Drawable.call(this, options);
 
   Object.defineProperty(this, "element", {
-    set:function(value){
+    set: function(value) {
       options.element = getHtmlElement(value);
       if (options.container) {
         getHtmlElement(options.container).appendChild(options.element);
       }
     },
-    get:function(){
+    get: function() {
       return options.element;
     }
   });
@@ -50,16 +49,14 @@ function Element(userOptions) {
 }
 
 Element.prototype = Object.assign({}, Drawable.prototype, {
-
-  onShow: function(){
+  onShow: function() {
     this.element.style.display = this._cachedDisplay;
   },
 
-  onHide: function(){
+  onHide: function() {
     if (this.visible) {
       this._cachedDisplay = this.element.style.display || "block";
     }
     this.element.style.display = "none";
   }
-
 });

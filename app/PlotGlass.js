@@ -1,6 +1,6 @@
 import DrawRegion from "DrawRegion";
 import Stats from "Stats";
-import cfg from "Config"
+import cfg from "Config";
 export default PlotGlass;
 
 /**
@@ -12,8 +12,7 @@ export default PlotGlass;
  * document.
  *
  */
-function PlotGlass(){
-
+function PlotGlass() {
   /** List of DOM elements to render within */
   this._plots = [];
   this._running = false;
@@ -26,8 +25,7 @@ PlotGlass.prototype = {
    * @param element   Dom element to serve as the bounds for rendering
    * @param plot  PlotGlass DrawRegion to render on the element bounds
    */
-  add : function(plot) {
-
+  add: function(plot) {
     this._plots.push(plot);
 
     let parent = plot.element.parentElement;
@@ -40,8 +38,7 @@ PlotGlass.prototype = {
     this.resize();
   },
 
-  start : function() {
-
+  start: function() {
     /* Place a canvas over the whole screen */
     this.canvas = document.createElement("canvas");
     Object.assign(this.canvas.style, {
@@ -51,21 +48,21 @@ PlotGlass.prototype = {
       bottom: "0px",
       right: "0px",
       zIndex: "1000",
-      pointerEvents: "none",
+      pointerEvents: "none"
     });
     document.body.append(this.canvas);
 
     let resizeTimeout = null;
     window.addEventListener("scroll", this.scroll.bind(this));
-    window.addEventListener("resize", ()=>{
+    window.addEventListener("resize", () => {
       this.resize();
       clearTimeout(resizeTimeout);
       resizeTimeout = setTimeout(this.resize.bind(this), 300);
     });
 
-    let gl = this.gl = this.canvas.getContext("webgl", {
+    let gl = (this.gl = this.canvas.getContext("webgl", {
       preserveDrawingBuffer: false
-    });
+    }));
     gl.enable(gl.SCISSOR_TEST);
     gl.clearColor.apply(gl, cfg.CLEAR_COLOR);
     gl.clearDepth(1.0);
@@ -79,7 +76,6 @@ PlotGlass.prototype = {
   },
 
   resize: function() {
-
     if (!this.canvas) {
       /* ignore resize events before canvas is loaded */
       return;
@@ -87,13 +83,13 @@ PlotGlass.prototype = {
 
     Object.assign(this.canvas.style, {
       width: `${window.innerWidth}px`,
-      height: `${window.innerHeight}px`,
+      height: `${window.innerHeight}px`
     });
 
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
 
-    for (let i = 0; i < this._plots.length; i++ ) {
+    for (let i = 0; i < this._plots.length; i++) {
       let plot = this._plots[i];
       for (let j = 0; j < plot._resizeList.length; j++) {
         plot._resizeList[j].resize();
@@ -102,7 +98,7 @@ PlotGlass.prototype = {
   },
 
   scroll: function() {
-    for (let i = 0; i < this._plots.length; i++ ) {
+    for (let i = 0; i < this._plots.length; i++) {
       let plot = this._plots[i];
       for (let j = 0; j < plot._scrollList.length; j++) {
         plot._scrollList[j].scroll();
@@ -110,9 +106,8 @@ PlotGlass.prototype = {
     }
   },
 
-  _render : function() {
-
-    for (let i = 0; i < this._plots.length; i++ ) {
+  _render: function() {
+    for (let i = 0; i < this._plots.length; i++) {
       let plot = this._plots[i];
       for (let j = 0; j < plot._drawList.length; j++) {
         plot._drawList[j].draw(this.gl);
@@ -124,13 +119,12 @@ PlotGlass.prototype = {
     }
 
     this._stats.recordFrame();
-
   },
 
   /**
    * Clear the entire screen.
    */
-  _clearScreen : function() {
+  _clearScreen: function() {
     this.gl.disable(this.gl.SCISSOR_TEST);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
     this.gl.enable(this.gl.SCISSOR_TEST);

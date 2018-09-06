@@ -6,10 +6,9 @@ export default Stats;
  */
 function Stats() {
   this.frames = 0;
-};
+}
 
 Stats.prototype = {
-
   /**
    * Start an interval that records stats periodically
    *
@@ -17,17 +16,17 @@ Stats.prototype = {
    * @param {String} label String to print as part of console log
    * @param {Boolean} log Set true if stats should print out to console
    */
-  startFpsInterval: function(intervalSecs = 0, label="FPS", log=false) {
+  startFpsInterval: function(intervalSecs = 0, label = "FPS", log = false) {
     if (intervalSecs) {
       this.stopFpsInterval();
-      this.startTime = (new Date()).getTime();
+      this.startTime = new Date().getTime();
       this.frames = 0;
-      this.interval = setInterval(()=>{
+      this.interval = setInterval(() => {
         this.fps = this.getFps(true).toFixed(2);
         if (log) {
           console.log(label, this.fps);
         }
-      },intervalSecs * 1000);
+      }, intervalSecs * 1000);
     }
   },
 
@@ -48,9 +47,9 @@ Stats.prototype = {
    * @param {Boolean} reset Reset stats for this period
    **/
   getFps: function(reset = false) {
-    let now = (new Date()).getTime();
+    let now = new Date().getTime();
     let elapsed = now - this.startTime;
-    let fps = this.frames * 1000 / elapsed;
+    let fps = (this.frames * 1000) / elapsed;
     if (reset) {
       this.resetFps(now);
     }
@@ -64,4 +63,4 @@ Stats.prototype = {
     this.startTime = startTime;
     this.frames = 0;
   }
-}
+};

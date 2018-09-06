@@ -14,11 +14,10 @@ function PlotAxesHandler(axesOptions, axesContainers) {
   this._axesOptions = axesOptions;
   this._axisInstances = {};
   this._axesContainers = axesContainers;
-  this.onChange = function(axes){};
+  this.onChange = function(axes) {};
 }
 
 PlotAxesHandler.prototype = Object.assign({}, Drawable.prototype, {
-
   _handleAxisChange: function() {
     this.onChange(this.getAxes());
   },
@@ -45,7 +44,7 @@ PlotAxesHandler.prototype = Object.assign({}, Drawable.prototype, {
     for (let axisName in this._axesContainers) {
       let container = this._axesContainers[axisName];
 
-      while(container.hasChildNodes()) {
+      while (container.hasChildNodes()) {
         container.removeChild(container.lastChild);
       }
     }
@@ -73,8 +72,7 @@ PlotAxesHandler.prototype = Object.assign({}, Drawable.prototype, {
    * @return
    * Object of axis instances, keyed by axis name
    */
-  getAxes:function() {
+  getAxes: function() {
     return this._axisInstances;
   }
-
 });

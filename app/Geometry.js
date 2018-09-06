@@ -1,9 +1,9 @@
-import {mergeOptions} from "Util";
-import {mat4} from "gl-matrix";
-import cfg from "Config"
+import { mergeOptions } from "Util";
+import { mat4 } from "gl-matrix";
+import cfg from "Config";
 import Drawable from "Drawable";
 
-"use strict";
+("use strict");
 export default Geometry;
 
 /**
@@ -25,15 +25,20 @@ export default Geometry;
  * but the terminology should remain consistent regardless.
  */
 function Geometry(userOptions) {
-
   /**
-    * @typedef Geometry.Options
-    */
-  let options = mergeOptions({
-    origin:[0,0],         /* Fraction of the drawable to start rendering the lines in */
-    size:[1,1],           /* Size of the drawable  */
-    coordBufferLength: 512,
-  }, userOptions);
+   * @typedef Geometry.Options
+   */
+  let options = mergeOptions(
+    {
+      origin: [
+        0,
+        0
+      ] /* Fraction of the drawable to start rendering the lines in */,
+      size: [1, 1] /* Size of the drawable  */,
+      coordBufferLength: 512
+    },
+    userOptions
+  );
 
   this._coordBuffer = null;
   this._coordBufferLength = options.coordBufferLength;
@@ -51,16 +56,16 @@ function Geometry(userOptions) {
   this.setCamera(options.origin, options.size);
 }
 
-Geometry.prototype = Object.assign( Object.create(Drawable.prototype) , {
-
-  setCamera(origin, size, near=0, far=1) {
-    mat4.ortho(this._pMatrix,
-      origin[0],            /* left */
-      origin[0] + size[0],  /* right */
-      origin[1],            /* bottom */
-      origin[1] + size[1],  /* top */
-      0,                    /* near */
-      1                     /* far */
+Geometry.prototype = Object.assign(Object.create(Drawable.prototype), {
+  setCamera(origin, size, near = 0, far = 1) {
+    mat4.ortho(
+      this._pMatrix,
+      origin[0] /* left */,
+      origin[0] + size[0] /* right */,
+      origin[1] /* bottom */,
+      origin[1] + size[1] /* top */,
+      0 /* near */,
+      1 /* far */
     );
   },
   /**
@@ -70,13 +75,12 @@ Geometry.prototype = Object.assign( Object.create(Drawable.prototype) , {
    * Add vertices to this geometry object
    * @param {Float[]} coords Packed array of floating point coordinats. (e.g. [x1,y1,z1,x2,y2,z2,...xn,yn,zn])
    */
-  addVertices : function (coords) {
-
-    if (this._numCoords >= (this._coordCache.length - coords.length)) {
+  addVertices: function(coords) {
+    if (this._numCoords >= this._coordCache.length - coords.length) {
       let oldCache = this._coordCache;
 
       let newSize = (this._coordCache.length + coords.length) * 1.125;
-      newSize = newSize + newSize % cfg.COORDS_PER_VERT;
+      newSize = newSize + (newSize % cfg.COORDS_PER_VERT);
 
       this._coordCache = new Float32Array(newSize);
       this._coordCache.set(oldCache);
@@ -87,8 +91,7 @@ Geometry.prototype = Object.assign( Object.create(Drawable.prototype) , {
     this._buffersDirty = true;
   },
 
-  initGl : function (gl) {
-
+  initGl: function(gl) {
     if (this._unAllocated) {
       this._coordBuffer = gl.createBuffer();
 
@@ -96,37 +99,50 @@ Geometry.prototype = Object.assign( Object.create(Drawable.prototype) , {
       let initialSize = Math.max(this._numCoords, this._coordBufferLength);
       this._coordBufferLength = initialSize;
 
-      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(initialSize), gl.STATIC_DRAW);
+      gl.bufferData(
+        gl.ARRAY_BUFFER,
+        new Float32Array(initialSize),
+        gl.STATIC_DRAW
+      );
       this._unAllocated = false;
     }
 
     if (this._numCoords) {
-
       gl.bindBuffer(gl.ARRAY_BUFFER, this._coordBuffer);
       let remainingLength = this._coordBufferLength - this._lastCoordIndex;
 
       if (remainingLength < this._numCoords) {
-
         /* new verts would overflow buffer */
         if (remainingLength) {
-          gl.bufferSubData(gl.ARRAY_BUFFER, this._lastCoordIndex * Float32Array.BYTES_PER_ELEMENT, this._coordCache.subarray(0, remainingLength));
+          gl.bufferSubData(
+            gl.ARRAY_BUFFER,
+            this._lastCoordIndex * Float32Array.BYTES_PER_ELEMENT,
+            this._coordCache.subarray(0, remainingLength)
+          );
         }
 
-        gl.bufferSubData(gl.ARRAY_BUFFER, 0, this._coordCache.subarray(remainingLength, this._numCoords));
-        this._lastCoordIndex = (this._numCoords - remainingLength);
-
+        gl.bufferSubData(
+          gl.ARRAY_BUFFER,
+          0,
+          this._coordCache.subarray(remainingLength, this._numCoords)
+        );
+        this._lastCoordIndex = this._numCoords - remainingLength;
       } else {
-
-        gl.bufferSubData(gl.ARRAY_BUFFER, this._lastCoordIndex * Float32Array.BYTES_PER_ELEMENT, this._coordCache.subarray(0, this._numCoords));
+        gl.bufferSubData(
+          gl.ARRAY_BUFFER,
+          this._lastCoordIndex * Float32Array.BYTES_PER_ELEMENT,
+          this._coordCache.subarray(0, this._numCoords)
+        );
         this._lastCoordIndex += this._numCoords;
-
       }
 
-      this.numVertices = Math.min(this.numVertices + this._numCoords / cfg.COORDS_PER_VERT, parseInt(this._coordBufferLength / cfg.COORDS_PER_VERT));
+      this.numVertices = Math.min(
+        this.numVertices + this._numCoords / cfg.COORDS_PER_VERT,
+        parseInt(this._coordBufferLength / cfg.COORDS_PER_VERT)
+      );
 
       this._numCoords = 0;
     }
-
   },
 
   /**
@@ -136,7 +152,7 @@ Geometry.prototype = Object.assign( Object.create(Drawable.prototype) , {
    * Base draw method, which should always be called by subclasses. This method will perform any updates to dirty
    * geometry buffers, but does not actually perform any drawing itself.
    */
-  draw : function (gl) {
+  draw: function(gl) {
     if (this._buffersDirty) {
       this.initGl(gl);
       this._buffersDirty = false;
@@ -150,8 +166,11 @@ Geometry.prototype = Object.assign( Object.create(Drawable.prototype) , {
    * Draws the circular buffer as a line strip,
    */
   drawCircular(gl) {
-    if (this._lastCoordIndex && (this.numVertices == parseInt(this._coordBufferLength / cfg.COORDS_PER_VERT))) {
-
+    if (
+      this._lastCoordIndex &&
+      this.numVertices ==
+        parseInt(this._coordBufferLength / cfg.COORDS_PER_VERT)
+    ) {
       let lastVertexIndex = this._lastCoordIndex / cfg.COORDS_PER_VERT;
       let vertsToDraw = this.numVertices - lastVertexIndex;
 
@@ -175,11 +194,17 @@ Geometry.prototype = Object.assign( Object.create(Drawable.prototype) , {
    * @param {WebGl} gl Webgl context
    * @param {Shader} shader Shader instance
    */
-  setShaderPosition : function (gl, shader) {
+  setShaderPosition: function(gl, shader) {
     shader.use(gl, this._mvMatrix, this._pMatrix);
     gl.bindBuffer(gl.ARRAY_BUFFER, this._coordBuffer);
     gl.enableVertexAttribArray(shader.vertexPositionAttribute);
-    gl.vertexAttribPointer(shader.vertexPositionAttribute, cfg.COORDS_PER_VERT, gl.FLOAT, false, 0, 0);
-  },
-
-})
+    gl.vertexAttribPointer(
+      shader.vertexPositionAttribute,
+      cfg.COORDS_PER_VERT,
+      gl.FLOAT,
+      false,
+      0,
+      0
+    );
+  }
+});

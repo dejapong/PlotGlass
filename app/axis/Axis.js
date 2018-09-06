@@ -1,60 +1,59 @@
-import {mergeOptions, newDiv} from "Util";
+import { mergeOptions, newDiv } from "Util";
 import Element from "Element";
-import {AxisDefs, testAxisLocation, AxisLocation} from "axis/AxisDefs";
+import { AxisDefs, testAxisLocation, AxisLocation } from "axis/AxisDefs";
 import AxisTitle from "axis/AxisTitle";
 import AxisLabels from "axis/AxisLabels";
 import AxisScale from "axis/AxisScale";
 export default Axis;
 
 /**
-  * @constructor
-  * @extends Element
-  * @description
-  * HTML element for drawing an axis with rules and labels. An axis can reside in any of the four border
-  * locations around a plot body. (see {@link AxisLocation})
-  *
-  * @param {Axis.Options} userOptions Options for the axis which extends {@link Element.Options}
-  */
+ * @constructor
+ * @extends Element
+ * @description
+ * HTML element for drawing an axis with rules and labels. An axis can reside in any of the four border
+ * locations around a plot body. (see {@link AxisLocation})
+ *
+ * @param {Axis.Options} userOptions Options for the axis which extends {@link Element.Options}
+ */
 function Axis(userOptions) {
-
   let _ = this;
 
   /**
-    * @typedef Axis.Options
-    *
-    * @description
-    * These are the options specific to this class. Other options provided by {@link Element.Options} can also be passed
-    * to create an Axis.
-    *
-    * @property {AxisLocation} axis       Axis location
-    * @property {Number[]} range          Min and max values of axis scale [min, max]
-    * @property {Boolean} flipDirection   If true, the axis direction will be flipped with respect to the default
-    *                                     direction
-    * @property {Number} numLabels        Number of axis labels.
-    * @property {Number} numMajorTicks    Number of major ticks
-    * @property {Number} numMinorTicks    Number of minor ticks (ticks between major ticks)
-    **/
+   * @typedef Axis.Options
+   *
+   * @description
+   * These are the options specific to this class. Other options provided by {@link Element.Options} can also be passed
+   * to create an Axis.
+   *
+   * @property {AxisLocation} axis       Axis location
+   * @property {Number[]} range          Min and max values of axis scale [min, max]
+   * @property {Boolean} flipDirection   If true, the axis direction will be flipped with respect to the default
+   *                                     direction
+   * @property {Number} numLabels        Number of axis labels.
+   * @property {Number} numMajorTicks    Number of major ticks
+   * @property {Number} numMinorTicks    Number of minor ticks (ticks between major ticks)
+   **/
   const defaultOptions = {
     axis: AxisLocation.X_AXIS_BOTTOM,
-    range:[-1, 1],
+    range: [-1, 1],
     flipDirection: false,
     numLabels: 5,
     numMajorTicks: 5,
     numMinorTicks: 3,
 
     /* Default options for base classes */
-    visible:true,
-    class:"pgAxis",
+    visible: true,
+    class: "pgAxis",
     style: {
-      display:"flex",
-    },
-  }
+      display: "flex"
+    }
+  };
 
   let options = mergeOptions(defaultOptions, userOptions);
 
   /* Flex direction depends on axis location. Modify this before calling parent constructor */
   testAxisLocation(options.axis);
-  switch(options.axis) {
+  switch (options.axis) {
     case AxisLocation.X_AXIS_BOTTOM: /* fallthrough */
     case AxisLocation.X_AXIS_TOP:
       options.style.flexDirection = "column";
@@ -80,7 +79,7 @@ function Axis(userOptions) {
 
   /* Append subelements in order, depending on axis location */
   let elements = [];
-  switch(options.axis) {
+  switch (options.axis) {
     case AxisLocation.X_AXIS_BOTTOM: /* fallthrough */
     case AxisLocation.Y_AXIS_RIGHT:
       elements.push(axisScale.element, axisLabels.element, axisTitle.element);
@@ -101,7 +100,7 @@ function Axis(userOptions) {
    * @memberof Axis
    **/
   Object.defineProperty(this, "title", {
-    set: function(value){
+    set: function(value) {
       axisTitle.title = value;
     },
     get: function() {
@@ -140,7 +139,6 @@ function Axis(userOptions) {
       options.flipDirection = value;
       axisLabels.deserialize(options);
       _.onAxisChange();
-
     },
     get: function() {
       return options.flipDirection;
@@ -148,7 +146,7 @@ function Axis(userOptions) {
   });
 
   /* Set default handlers */
-  this.onAxisChange = function(){};
-};
+  this.onAxisChange = function() {};
+}
 
-Axis.prototype = Object.assign( Object.create(Element.prototype), {});
+Axis.prototype = Object.assign(Object.create(Element.prototype), {});
